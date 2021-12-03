@@ -88,6 +88,8 @@ describe("Given that I am a user on login page", () => {
       firebase
     })
 
+   
+
     const handleSubmit = jest.fn(login.handleSubmitEmployee)    
     form.addEventListener("submit", handleSubmit)
     fireEvent.submit(form)
@@ -105,7 +107,7 @@ describe("Given that I am a user on login page", () => {
     })  
 
     test("It should renders Bills page", () => {
-      expect(screen.getAllByText('Mes notes de frais')).toBeTruthy()
+      expect(screen.getByText('Mes notes de frais')).toBeTruthy()      
     })
 
   })

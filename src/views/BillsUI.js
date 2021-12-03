@@ -4,6 +4,7 @@ import LoadingPage from "./LoadingPage.js"
 
 import Actions from './Actions.js'
 
+
 const row = (bill) => {
   return (`
     <tr>
@@ -19,8 +20,9 @@ const row = (bill) => {
     `)
   }
 
-const rows = (data) => {
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+const rows = (data) => {  
+  const dataSorted = data?.slice().sort((a,b) => ((Date.parse(a.date ) < Date.parse(b.date )) ? 1 : -1));  
+  return (dataSorted && dataSorted.length) ? dataSorted.map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {
@@ -53,7 +55,7 @@ export default ({ data: bills, loading, error }) => {
       ${VerticalLayout(120)}
       <div class='content'>
         <div class='content-header'>
-          <div class='content-title'> Mes notes de frais </div>
+          <div class='content-title'>Mes notes de frais</div>
           <button type="button" data-testid='btn-new-bill' class="btn btn-primary">Nouvelle note de frais</button>
         </div>
         <div id="data-table">

@@ -4,6 +4,7 @@ import BigBilledIcon from '../assets/svg/big_billed.js'
 import { ROUTES_PATH } from '../constants/routes.js'
 import USERS_TEST from '../constants/usersTest.js'
 import Logout from "./Logout.js"
+const regexDate = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
 
 export const filteredBills = (data, status) => {
   return (data && data.length) ?
@@ -44,7 +45,7 @@ export const card = (bill) => {
         <span> ${bill.amount} € </span>
       </div>
       <div class='date-type-container'>
-        <span> ${formatDate(bill.date)} </span>
+        <span> ${(bill.date.match(regexDate) ? formatDate(bill.date) : '')} </span>
         <span> ${bill.type} </span>
       </div>
     </div>
@@ -94,16 +95,18 @@ export default class {
       })
       $(`#open-bill${bill.id}`).css({ background: '#2A2B35' })
       $('.dashboard-right-container div').html(DashboardFormUI(bill))
-      $('.vertical-navbar').css({ height: '150vh' })
-      this.counter ++
+      $('.vertical-navbar').css({ height: '150vh' })      
+      //console.log('counter: ', this.counter);
+      this.counter += 2
     } else {
       $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' })
 
       $('.dashboard-right-container div').html(`
         <div id="big-billed-icon"> ${BigBilledIcon} </div>
       `)
-      $('.vertical-navbar').css({ height: '120vh' })
-      this.counter ++
+      $('.vertical-navbar').css({ height: '120vh' })      
+      //console.log('counter: ', this.counter);
+      this.counter += 2
     }
     $('#icon-eye-d').click(this.handleClickIconEye)
     $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
@@ -129,7 +132,7 @@ export default class {
     this.updateBill(newBill)
     this.onNavigate(ROUTES_PATH['Dashboard'])
   }
-
+  
   handleShowTickets(e, bills, index) {
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index

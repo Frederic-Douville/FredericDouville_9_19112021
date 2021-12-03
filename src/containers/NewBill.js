@@ -17,8 +17,10 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
+    const filePath = e.target.value.split(/\\/g)    
     const fileName = filePath[filePath.length-1]
+    const fileType = fileName.split('.').pop();
+    (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png' ?  
     this.firestore
       .storage
       .ref(`justificatifs/${fileName}`)
@@ -28,6 +30,8 @@ export default class NewBill {
         this.fileUrl = url
         this.fileName = fileName
       })
+    : (alert('Veuillez mettre un fichier jpg, jpeg ou png'),
+      this.document.querySelector('input[data-testid="file"]').value = ''));
   }
   handleSubmit = e => {
     e.preventDefault()
