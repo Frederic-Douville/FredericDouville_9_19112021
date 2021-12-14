@@ -9,22 +9,22 @@ export default class {
     this.firestore = firestore
     const buttonNewBill = document.querySelector(`button[data-testid="btn-new-bill"]`)
     if (buttonNewBill) buttonNewBill.addEventListener('click', this.handleClickNewBill)
-    const iconEye = document.querySelectorAll(`div[data-testid="icon-eye"]`)
-    if (iconEye) iconEye.forEach(icon => {
+    const iconEye = document.querySelectorAll(".icon-eye")    
+    if (iconEye) iconEye.forEach(icon => { 
       icon.addEventListener('click', (e) => this.handleClickIconEye(icon))
     })
     new Logout({ document, localStorage, onNavigate })
   }
 
   handleClickNewBill = e => {
-    this.onNavigate(ROUTES_PATH['NewBill'])
+    this.onNavigate(ROUTES_PATH['NewBill']) 
   }
 
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute("data-bill-url")
     const imgWidth = Math.floor($('#modaleFile').width() * 0.5)
     $('#modaleFile').find(".modal-body").html(`<div style='text-align: center;'><img width=${imgWidth} src=${billUrl} /></div>`)
-    $('#modaleFile').modal('show')
+    if (typeof $('#modaleFile').modal === 'function') $('#modaleFile').modal('show')
   }
 
   // not need to cover this function by tests
@@ -44,10 +44,7 @@ export default class {
                 date: formatDate(doc.data().date),
                 status: formatStatus(doc.data().status)
               }
-            } catch(e) {
-              // if for some reason, corrupted data was introduced, we manage here failing formatDate function
-              // log the error and return unformatted date in that case
-              console.log(e,'for',doc.data())
+            } catch(e) {              
               return {
                 ...doc.data(),
                 date: doc.data().date,
@@ -55,8 +52,7 @@ export default class {
               }
             }
           })
-          .filter(bill => bill.email === userEmail)
-          console.log('length', bills.length)
+          .filter(bill => bill.email === userEmail)          
         return bills
       })
       .catch(error => error)

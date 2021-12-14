@@ -20,8 +20,11 @@ const row = (bill) => {
     `)
   }
 
-const rows = (data) => {  
-  const dataSorted = data?.slice().sort((a,b) => ((Date.parse(a.date ) < Date.parse(b.date )) ? 1 : -1));  
+const rows = (data) => {
+  
+  const dataSorted = data?.slice().sort((a,b) =>
+   ((Date.parse(a.date ) < Date.parse(b.date )) ? 1 : -1));  
+  
   return (dataSorted && dataSorted.length) ? dataSorted.map(bill => row(bill)).join("") : ""
 }
 
